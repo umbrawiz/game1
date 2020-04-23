@@ -10,7 +10,8 @@ public:
 	void setrect(int x, int y);
 	SDL_Rect getrect();
 	SDL_Texture* getobject() ;
-	void Load_Image(std::string filepath, SDL_Renderer* screen);
+	bool Load_Image(std::string filepath, SDL_Renderer* screen);
+	void render(SDL_Renderer* des, SDL_Rect* from);
 protected:
 	SDL_Rect rect;
 	SDL_Texture* p_object;

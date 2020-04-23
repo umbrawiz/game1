@@ -21,11 +21,22 @@ SDL_Rect Object::getrect() {
 SDL_Texture* Object:: getobject(){
 	return p_object;
 }
-void Object::Load_Image(std::string filepath, SDL_Renderer* screen) {
+bool Object::Load_Image(std::string filepath, SDL_Renderer* screen) {
 	SDL_Texture* texture = NULL;
 	SDL_Surface* surface = IMG_Load(filepath.c_str());
-	texture = SDL_CreateTextureFromSurface(screen, surface);
-	rect.w = surface->w;
-	rect.h = surface->h;
+	if (surface != NULL) {
+		texture = SDL_CreateTextureFromSurface(screen, surface);
+		if (texture != NULL) {
+			rect.w = surface->w;
+			rect.h = surface->h;
+		}	
+	}
 	p_object = texture;
+
+	return p_object != NULL;
+	
+}
+void Object::render(SDL_Renderer* des, SDL_Rect* from) {
+	SDL_Rect render = { rect.x,rect.y,rect.w,rect.h };
+	SDL_RenderCopy(des, p_object, from, &render);
 }
