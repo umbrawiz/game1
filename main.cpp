@@ -26,5 +26,18 @@ bool loadbackground() {
 	return true;
 }
 int main(int argc, char* argv[]) {
+	if (Init() == false) return -1;
+	if (loadbackground() == false) return -1;
+	bool quit = false;
+	while (quit == false) {
+		while (SDL_PollEvent(&g_event) != 0) {
+			if (g_event.type = SDL_QUIT) {
+				quit = true;
+			}
+		}
+		SDL_SetRenderDrawColor(g_screen, 255, 255, 255, 255);
+		background.render(g_screen, NULL);
+		SDL_RenderPresent(g_screen);
+	}
 	return 0;
 }

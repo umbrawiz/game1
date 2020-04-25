@@ -11,7 +11,7 @@ public:
 	SDL_Rect getrect();
 	SDL_Texture* getobject() ;
 	bool Load_Image(std::string filepath, SDL_Renderer* screen);
-	void render(SDL_Renderer* des, SDL_Rect* from);
+	void render(SDL_Renderer* des, SDL_Rect* from /*= NULL */);
 protected:
 	SDL_Rect rect;
 	SDL_Texture* p_object;
