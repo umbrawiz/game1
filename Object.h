@@ -7,7 +7,10 @@ class Object {
 public:
 	Object();
 	~Object();
-	void setrect(int x, int y);
+	void setrect(const int& x, const int& y) {
+		rect.x = x;
+		rect.y = y;
+	}
 	SDL_Rect getrect();
 	SDL_Texture* getobject() ;
 	bool Load_Image(std::string filepath, SDL_Renderer* screen);

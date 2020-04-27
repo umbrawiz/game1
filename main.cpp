@@ -1,42 +1,36 @@
 #include "Func.h"
 #include "Object.h"
+#include "map.h"
 #undef main
 
 Object background;
 
-bool Init() {
-	bool check = true;
-	int ret = SDL_Init(SDL_INIT_VIDEO);
-	if (ret < 0) return false;
-	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
-	g_window = SDL_CreateWindow("Rambo", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-	if (g_window == NULL) {
-		check = false;
-	}
-	else {
-		g_screen = SDL_CreateRenderer(g_window,-1,SDL_RENDERER_ACCELERATED);
-		SDL_SetRenderDrawColor(g_screen, 255, 255, 255, 255);
-	}
-	return check;
+void initSDL()
+{
+	g_window = SDL_CreateWindow("Rambo", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+	g_screen = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED |
+		SDL_RENDERER_PRESENTVSYNC);
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+	SDL_RenderSetLogicalSize(g_screen, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
-bool loadbackground() {
-	bool r = background.Load_Image("terra.png", g_screen);
-	if (r == false) return false;
-	return true;
-}
 int main(int argc, char* argv[]) {
-	if (Init() == false) return -1;
-	if (loadbackground() == false) return -1;
+	initSDL();
+	gamemap g_map;
+	g_map.loadmap("map/mapinfo.dat");
+	g_map.loadtile(g_screen);
+
 	bool quit = false;
 	while (quit == false) {
-		while (SDL_PollEvent(&g_event) != 0) {
-			if (g_event.type = SDL_QUIT) {
+		while (SDL_PollEvent(&g_event) == 1) {
+			if (g_event.type = SDL_MOUSEBUTTONUP) {
 				quit = true;
 			}
 		}
 		SDL_SetRenderDrawColor(g_screen, 255, 255, 255, 255);
+		SDL_RenderClear(g_screen);
 		background.render(g_screen, NULL);
+		g_map.draw(g_screen);
 		SDL_RenderPresent(g_screen);
 	}
 	return 0;

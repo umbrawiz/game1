@@ -11,10 +11,6 @@ Object::Object() {
 Object::~Object() {
 
 }
-void Object::setrect(int x, int y) {
-	rect.x = x;
-	rect.y = y;
-}
 SDL_Rect Object::getrect() {
 	return rect;
 }
@@ -27,9 +23,11 @@ bool Object::Load_Image(std::string filepath, SDL_Renderer* screen) {
 	if (surface != NULL) {
 		texture = SDL_CreateTextureFromSurface(screen, surface);
 		if (texture != NULL) {
+			SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, 255, 255, 255));
 			rect.w = surface->w;
 			rect.h = surface->h;
 		}	
+		SDL_FreeSurface(surface);
 	}
 	p_object = texture;
 
