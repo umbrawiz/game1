@@ -7,27 +7,29 @@ Object background;
 
 void initSDL()
 {
-	g_window = SDL_CreateWindow("Rambo", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-	g_screen = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED |
-		SDL_RENDERER_PRESENTVSYNC);
-	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
-	SDL_RenderSetLogicalSize(g_screen, SCREEN_WIDTH, SCREEN_HEIGHT);
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
+	g_window = SDL_CreateWindow("Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+	g_screen = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED);
+	SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
 }
-
+void LoadBackground() {
+	background.Load_Image("img/test.png", g_screen);
+}
 int main(int argc, char* argv[]) {
 	initSDL();
+	LoadBackground();
 	gamemap g_map;
-	g_map.loadmap("map/mapinfo.dat");
+	g_map.loadmap("map/map01.dat");
 	g_map.loadtile(g_screen);
 
 	bool quit = false;
-	while (quit == false) {
-		while (SDL_PollEvent(&g_event) == 1) {
-			if (g_event.type = SDL_MOUSEBUTTONUP) {
+	while (!quit) {
+		while (SDL_PollEvent(&g_event) != 0) {
+			if (g_event.type == SDL_QUIT) {
 				quit = true;
 			}
 		}
-		SDL_SetRenderDrawColor(g_screen, 255, 255, 255, 255);
+		SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
 		SDL_RenderClear(g_screen);
 		background.render(g_screen, NULL);
 		g_map.draw(g_screen);

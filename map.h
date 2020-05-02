@@ -4,23 +4,23 @@
 #include "Func.h"
 #include "Object.h"
 
+#define MAX_TILE 10
+
 class tilemap : public Object {
 public:
-	tilemap() {
-
-	}
+	tilemap() { ; }
+	~tilemap() { ; }
 };
 
 class gamemap {
 public:
-	gamemap() {
-
-	}
+	gamemap() { ; }
+	~gamemap() { ; }
 	void loadmap(std::string fname);
 	void loadtile(SDL_Renderer* screen);
 	void draw(SDL_Renderer* screen);
 	Map gmap;
-	tilemap tilemap[10];
+	tilemap tilemap[MAX_TILE];
 
 };
 #endif 

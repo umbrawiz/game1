@@ -7,14 +7,11 @@ class Object {
 public:
 	Object();
 	~Object();
-	void setrect(const int& x, const int& y) {
-		rect.x = x;
-		rect.y = y;
-	}
-	SDL_Rect getrect();
-	SDL_Texture* getobject() ;
+	void setrect(const int& x, const int& y) { rect.x = x, rect.y = y; }
+	SDL_Rect getrect() { return rect; }
+	SDL_Texture* getobject() { return p_object; }
 	bool Load_Image(std::string filepath, SDL_Renderer* screen);
-	void render(SDL_Renderer* des, SDL_Rect* from /*= NULL */);
+	void render(SDL_Renderer* des, const SDL_Rect* from = NULL );
 protected:
 	SDL_Rect rect;
 	SDL_Texture* p_object;

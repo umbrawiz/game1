@@ -11,19 +11,13 @@ Object::Object() {
 Object::~Object() {
 
 }
-SDL_Rect Object::getrect() {
-	return rect;
-}
-SDL_Texture* Object:: getobject(){
-	return p_object;
-}
 bool Object::Load_Image(std::string filepath, SDL_Renderer* screen) {
 	SDL_Texture* texture = NULL;
 	SDL_Surface* surface = IMG_Load(filepath.c_str());
 	if (surface != NULL) {
 		texture = SDL_CreateTextureFromSurface(screen, surface);
 		if (texture != NULL) {
-			SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, 255, 255, 255));
+			SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, COLOR_KEY_R, COLOR_KEY_G, COLOR_KEY_B));
 			rect.w = surface->w;
 			rect.h = surface->h;
 		}	
@@ -34,7 +28,7 @@ bool Object::Load_Image(std::string filepath, SDL_Renderer* screen) {
 	return p_object != NULL;
 	
 }
-void Object::render(SDL_Renderer* des, SDL_Rect* from) {
-	SDL_Rect render = { rect.x,rect.y,rect.w,rect.h };
+void Object::render(SDL_Renderer* des, const SDL_Rect* from ) {
+	SDL_Rect render = {rect.x,rect.y,rect.w,rect.h};
 	SDL_RenderCopy(des, p_object, from, &render);
 }
