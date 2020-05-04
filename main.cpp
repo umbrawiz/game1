@@ -1,6 +1,7 @@
 #include "Func.h"
 #include "Object.h"
 #include "map.h"
+#include "Character.h"
 #undef main
 
 Object background;
@@ -21,6 +22,8 @@ int main(int argc, char* argv[]) {
 	gamemap g_map;
 	g_map.loadmap("map/map01.dat");
 	g_map.loadtile(g_screen);
+	
+	Char player;
 
 	bool quit = false;
 	while (!quit) {

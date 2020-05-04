@@ -27,6 +27,7 @@ const int RENDER_DRAW_COLOR = 0xff;
 #define TILE_SIZE 50
 #define MAP_W 16
 #define MAP_H 12
+#define FRAME_COUNT 4
 
 struct Map {
 	int start_w;
@@ -37,4 +38,12 @@ struct Map {
 	int tile[MAP_H][MAP_W];
 };
 
+struct InputFK {
+	int left;
+	int right;
+	int up;
+	int down;
+};
+
 #endif
+
