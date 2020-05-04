@@ -66,7 +66,25 @@ void Char::Press(SDL_Event ev, SDL_Renderer* screen) {
 		}
 	}
 	else if (ev.type == SDL_KEYUP) {
+		switch (ev.key.keysym.sym) {
+		case SDLK_RIGHT: {
+			ip.right = 0;
+		}
+					   break;
+		case SDLK_LEFT: {
+			ip.left = 0;
+		}
+					  break;
+		case SDLK_UP: {
+			ip.up = 0;
 
+		}
+					break;
+		case SDLK_DOWN: {
+			ip.down = 0;
+		}
+					  break;
+		}
 	}
 }
 
@@ -94,6 +112,7 @@ void Char::Print(SDL_Renderer* screen) {
 	else {
 		g_frame = 0;
 	}
+	if (g_frame >= 4) g_frame = 0;
 
 	rect.x = x_pos;
 	rect.y = y_pos;

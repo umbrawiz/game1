@@ -24,6 +24,8 @@ int main(int argc, char* argv[]) {
 	g_map.loadtile(g_screen);
 	
 	Char player;
+	player.Load_Img("img/Right.png", g_screen);
+	player.animation();
 
 	bool quit = false;
 	while (!quit) {
@@ -31,11 +33,13 @@ int main(int argc, char* argv[]) {
 			if (g_event.type == SDL_QUIT) {
 				quit = true;
 			}
+			player.Press(g_event, g_screen);
 		}
 		SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
 		SDL_RenderClear(g_screen);
 		background.render(g_screen, NULL);
 		g_map.draw(g_screen);
+		player.Print(g_screen);
 		SDL_RenderPresent(g_screen);
 	}
 	return 0;
