@@ -29,6 +29,8 @@ const int RENDER_DRAW_COLOR = 0xff;
 #define MAP_H 12
 #define FRAME_COUNT 4
 
+#define Char_speed 0.35;
+
 struct Map {
 	int start_w;
 	int start_h;

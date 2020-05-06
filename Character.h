@@ -11,8 +11,10 @@ public:
 
 	bool Load_Img(std::string path, SDL_Renderer* screen);
 	void Print(SDL_Renderer* screen);
-	void Press(SDL_Event ev, SDL_Renderer* screen);
+	void KeyPress(SDL_Event ev, SDL_Renderer* screen);
 	void animation();
+	void mapcheck(Map& map);
+	void spawn(Map& map);
 
 	enum movement {
 		move_right = 0,

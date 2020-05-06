@@ -3,13 +3,17 @@
 
 Char::Char() {
 	g_frame = 0;
-	x_pos = 0;
-	y_pos = 0;
+	x_pos = 400;
+	y_pos = 300;
 	x_val = 0;
 	y_val = 0;
 	frame_w = 0;
 	frame_h = 0;
-	status = -1;
+	status = NULL;
+	ip.down = 0;
+	ip.up = 0;
+	ip.left = 0;
+	ip.right = 0;
 }
 
 Char::~Char() {
@@ -27,22 +31,23 @@ bool Char::Load_Img(std::string path, SDL_Renderer* screen) {
 }
 
 void Char::animation() {
-	if (frame_w > 0 & frame_h > 0) {
-		for (int i = 0; i < FRAME_COUNT; i++) {
-			frame[i].x = i * frame_w;
-			frame[i].y = 0;
-			frame[i].w = frame_w;
-			frame[i].h = frame_h;
-		}
-
+	for (int i = 0; i < FRAME_COUNT; i++) {
+		frame[i].x = i * frame_w;
+		frame[i].y = 0;
+		frame[i].w = frame_w;
+		frame[i].h = frame_h;
 	}
-
 }
 
-void Char::Press(SDL_Event ev, SDL_Renderer* screen) {
+void Char::KeyPress(SDL_Event ev, SDL_Renderer* screen) {
 	if (ev.type == SDL_KEYDOWN) {
 		switch (ev.key.keysym.sym) {
 		case SDLK_RIGHT: {
+			status = move_right;
+			ip.right = 1;
+		}
+					   break;
+		case SDLK_d : {
 			status = move_right;
 			ip.right = 1;
 		}
@@ -52,13 +57,28 @@ void Char::Press(SDL_Event ev, SDL_Renderer* screen) {
 			ip.left = 1;
 		}
 					  break;
+		case SDLK_a: {
+			status = move_left;
+			ip.left = 1;
+		}
+					  break;
 		case SDLK_UP: {
+			status = move_up;
+			ip.up = 1;
+
+		}
+		case SDLK_w: {
 			status = move_up;
 			ip.up = 1;
 
 		}
 					break;
 		case SDLK_DOWN: {
+			status = move_down;
+			ip.down = 1;
+		}
+					  break;
+		case SDLK_s: {
 			status = move_down;
 			ip.down = 1;
 		}
@@ -71,7 +91,15 @@ void Char::Press(SDL_Event ev, SDL_Renderer* screen) {
 			ip.right = 0;
 		}
 					   break;
+		case SDLK_d: {
+			ip.right = 0;
+		}
+					   break;
 		case SDLK_LEFT: {
+			ip.left = 0;
+		}
+					  break;
+		case SDLK_a: {
 			ip.left = 0;
 		}
 					  break;
@@ -80,7 +108,16 @@ void Char::Press(SDL_Event ev, SDL_Renderer* screen) {
 
 		}
 					break;
+		case SDLK_w: {
+			ip.up = 0;
+
+		}
+					break;
 		case SDLK_DOWN: {
+			ip.down = 0;
+		}
+					  break;
+		case SDLK_s: {
 			ip.down = 0;
 		}
 					  break;
@@ -89,19 +126,19 @@ void Char::Press(SDL_Event ev, SDL_Renderer* screen) {
 }
 
 void Char::Print(SDL_Renderer* screen) {
-	if (status = move_right) {
+	if (status == move_right) {
 		Load_Img("img//Right.png", screen);
 	}
 
-	else if (status = move_left) {
+	else if (status == move_left) {
 		Load_Img("img//Left.png", screen);
 	}
 
-	else if (status = move_up) {
+	else if (status == move_up) {
 		Load_Img("img//Up.png", screen);
 	}
 
-	else if(status = move_down){
+	else if(status == move_down){
 		Load_Img("img//Down.png", screen);
 	}
 
@@ -122,5 +159,86 @@ void Char::Print(SDL_Renderer* screen) {
 
 	SDL_RenderCopy(screen, p_object, pos, &render);
 
+}
+
+void Char::mapcheck(Map& map) {
+	int x1 = 0, x2 = 0, y1 = 0, y2 = 0;
+
+	int min_h = frame_h;
+	x1 = (x_pos + x_val) / TILE_SIZE;
+	x2 = (x_pos + x_val + frame_w -1 ) / TILE_SIZE;
+
+	y1 = (y_pos) / TILE_SIZE;
+	y2 = (y_pos + min_h -1 ) / TILE_SIZE;
+
+	if (x1 >= 0 && x2 < MAP_W && y1 >= 0 && y2 < MAP_H) {
+		if (x_val > 0) {
+			if (map.tile[y1][x2] != 3 || map.tile[y2][x2] != 3) {
+				x_pos = x2 * TILE_SIZE;
+				x_pos -= frame_w + 1;
+				x_val = 0;
+			}
+			else if (x_val < 0) {
+				if (map.tile[y1][x1] != 3 || map.tile[y2][x1] != 3) {
+					x_pos = (x1 + 1 ) * TILE_SIZE;
+					x_val = 0;
+				}
+			}
+		}
+	}
+
+	int min_w = frame_w;
+	x1 = x_pos / TILE_SIZE;
+	x2 = (x_pos + min_w) / TILE_SIZE;
+
+	y1 = (y_pos + y_val) / TILE_SIZE;
+	y2 = (y_pos + y_val + frame_h - 1) / TILE_SIZE;
+
+	if (x1 >= 0 && x2 < MAP_W && y1 >= 0 && y2 < MAP_H) {
+		if (y_val > 0) {
+			if (map.tile[y2][x1] != 3 || map.tile[y2][x2] != 3) {
+				y_pos = y2 * TILE_SIZE;
+				y_pos -= frame_h + 1;
+				y_val = 0;
+			}
+		}
+
+		else if (y_val < 0) {
+			if (map.tile[y1][x1] != 3 || map.tile[y1][x2] != 3) {
+				y_pos = (y1 +1)* TILE_SIZE;
+				y_val = 0;
+			}
+		}
+	}
+	x_pos += x_val;
+	y_pos += y_val;
+
+	if (x_pos < 0) {
+		x_pos = 0;
+	}
+
+	else if (x_pos + frame_w > map.max_w) {
+		x_pos = map.max_w - frame_w;
+	}
+}
+
+void Char::spawn(Map& map) {
+	x_val = 0;
+	y_val = 0;
+
+	if (ip.right == 1) {
+		x_val += Char_speed;
+	}
+	else if (ip.left == 1) {
+		x_val -= Char_speed;
+	}
+	else if (ip.up == 1) {
+		y_val -= Char_speed;
+	}
+	else if (ip.down == 1) {
+		y_val += Char_speed;
+	}
+
+	mapcheck(map);
 }
 
