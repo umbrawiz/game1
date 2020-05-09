@@ -1,5 +1,5 @@
-#ifndef OBJECT_H_
-#define OBJECT_H_
+#ifndef OBJECT_H
+#define OBJECT_H
 
 #include "Func.h"
 

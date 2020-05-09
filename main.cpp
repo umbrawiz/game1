@@ -24,10 +24,9 @@ int main(int argc, char* argv[]) {
 	g_map.loadtile(g_screen);
 	
 	Char player;
-	player.Load_Img("img//Up.png", g_screen);
+	player.Load_Img("img//Down.png", g_screen);
 	player.animation();
 
-	Map game_map = g_map.gmap;
 	bool quit = false;
 	while (!quit) {
 		while (SDL_PollEvent(&g_event) != 0) {
@@ -37,9 +36,13 @@ int main(int argc, char* argv[]) {
 			player.KeyPress(g_event, g_screen);
 		}
 		SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
-		//SDL_RenderClear(g_screen);
+		SDL_RenderClear(g_screen);
 		background.render(g_screen, NULL);
-		player.spawn(game_map);
+
+
+		Map new_map = g_map.getmap();
+		player.spawn(new_map);
+		g_map.ChangeMap(new_map);
 		g_map.draw(g_screen);
 		player.Print(g_screen);
 		SDL_RenderPresent(g_screen);

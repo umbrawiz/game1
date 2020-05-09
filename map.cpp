@@ -69,3 +69,11 @@ void gamemap::draw(SDL_Renderer* screen) {
 		pos_h++;
 	}
 }
+
+Map gamemap::getmap() {
+	return gmap;
+}
+
+void gamemap::ChangeMap(Map new_map) {
+	gmap = new_map;
+}

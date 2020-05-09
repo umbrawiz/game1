@@ -1,5 +1,5 @@
-#ifndef FUNC_H_
-#define FUNC_H_
+#ifndef FUNC_H
+#define FUNC_H
 
 #include <iostream>
 #include <Windows.h>
@@ -30,6 +30,7 @@ const int RENDER_DRAW_COLOR = 0xff;
 #define FRAME_COUNT 4
 
 #define Char_speed 0.35;
+
 
 struct Map {
 	int start_w;

@@ -45,42 +45,66 @@ void Char::KeyPress(SDL_Event ev, SDL_Renderer* screen) {
 		case SDLK_RIGHT: {
 			status = move_right;
 			ip.right = 1;
+			ip.left = 0;
+			ip.down = 0;
+			ip.up = 0;
 		}
 					   break;
 		case SDLK_d : {
 			status = move_right;
 			ip.right = 1;
+			ip.left = 0;
+			ip.down = 0;
+			ip.up = 0;
 		}
 					   break;
 		case SDLK_LEFT: {
 			status = move_left;
+			ip.right = 0;
 			ip.left = 1;
+			ip.down = 0;
+			ip.up = 0;
 		}
 					  break;
 		case SDLK_a: {
 			status = move_left;
+			ip.right = 0;
 			ip.left = 1;
+			ip.down = 0;
+			ip.up = 0;
 		}
 					  break;
 		case SDLK_UP: {
 			status = move_up;
+			ip.right = 0;
+			ip.left = 0;
+			ip.down = 0;
 			ip.up = 1;
 
 		}
 		case SDLK_w: {
 			status = move_up;
+			ip.right = 0;
+			ip.left = 0;
+			ip.down = 0;
 			ip.up = 1;
 
 		}
 					break;
 		case SDLK_DOWN: {
 			status = move_down;
+			ip.right = 0;
+			ip.left = 0;
 			ip.down = 1;
+			ip.up = 0;
 		}
 					  break;
 		case SDLK_s: {
 			status = move_down;
+			ip.right = 0;
+			ip.left = 0;
 			ip.down = 1;
+			ip.up = 0;
 		}
 					  break;
 		}
@@ -127,19 +151,19 @@ void Char::KeyPress(SDL_Event ev, SDL_Renderer* screen) {
 
 void Char::Print(SDL_Renderer* screen) {
 	if (status == move_right) {
-		Load_Img("img//Right.png", screen);
+		Load_Img("img/Right.png", screen);
 	}
 
 	else if (status == move_left) {
-		Load_Img("img//Left.png", screen);
+		Load_Img("img/Left.png", screen);
 	}
 
 	else if (status == move_up) {
-		Load_Img("img//Up.png", screen);
+		Load_Img("img/Up.png", screen);
 	}
 
 	else if(status == move_down){
-		Load_Img("img//Down.png", screen);
+		Load_Img("img/Down.png", screen);
 	}
 
 	if (ip.right == 1 || ip.left == 1 || ip.up == 1 || ip.down == 1) {
@@ -170,17 +194,29 @@ void Char::mapcheck(Map& map) {
 
 	y1 = (y_pos) / TILE_SIZE;
 	y2 = (y_pos + min_h -1 ) / TILE_SIZE;
-
+		
 	if (x1 >= 0 && x2 < MAP_W && y1 >= 0 && y2 < MAP_H) {
 		if (x_val > 0) {
-			if (map.tile[y1][x2] != 3 || map.tile[y2][x2] != 3) {
-				x_pos = x2 * TILE_SIZE;
-				x_pos -= frame_w + 1;
-				x_val = 0;
+			if (map.tile[y1][x2] == 6 || map.tile[y2][x2] == 6) {
+				map.tile[y1][x2] = 3;
+				map.tile[y2][x2] = 3;
 			}
-			else if (x_val < 0) {
+			else {
+				if (map.tile[y1][x2] != 3 || map.tile[y2][x2] != 3) {
+					x_pos = x2 * TILE_SIZE;
+					x_pos -= frame_w + 1;
+					x_val = 0;
+				}
+			}
+		}
+		else if (x_val < 0) {
+			if (map.tile[y1][x1] == 6 || map.tile[y2][x1] == 6) {
+				map.tile[y1][x1] = 3;
+				map.tile[y2][x1] = 3;
+			}
+			else {
 				if (map.tile[y1][x1] != 3 || map.tile[y2][x1] != 3) {
-					x_pos = (x1 + 1 ) * TILE_SIZE;
+					x_pos = (x1 + 1) * TILE_SIZE;
 					x_val = 0;
 				}
 			}
@@ -196,17 +232,29 @@ void Char::mapcheck(Map& map) {
 
 	if (x1 >= 0 && x2 < MAP_W && y1 >= 0 && y2 < MAP_H) {
 		if (y_val > 0) {
-			if (map.tile[y2][x1] != 3 || map.tile[y2][x2] != 3) {
-				y_pos = y2 * TILE_SIZE;
-				y_pos -= frame_h + 1;
-				y_val = 0;
+			if (map.tile[y2][x1] == 6 || map.tile[y2][x2] == 6) {
+				map.tile[y2][x1] = 3;
+				map.tile[y2][x2] = 3;
+			}
+			else {
+				if (map.tile[y2][x1] != 3 || map.tile[y2][x2] != 3) {
+					y_pos = y2 * TILE_SIZE;
+					y_pos -= frame_h + 1;
+					y_val = 0;
+				}
 			}
 		}
 
 		else if (y_val < 0) {
-			if (map.tile[y1][x1] != 3 || map.tile[y1][x2] != 3) {
-				y_pos = (y1 +1)* TILE_SIZE;
-				y_val = 0;
+			if (map.tile[y1][x1] == 6 || map.tile[y1][x2] == 6) {
+				map.tile[y1][x1] = 3;
+				map.tile[y1][x2] = 3;
+			}
+			else {
+				if (map.tile[y1][x1] != 3 || map.tile[y1][x2] != 3) {
+					y_pos = (y1 + 1) * TILE_SIZE;
+					y_val = 0;
+				}
 			}
 		}
 	}

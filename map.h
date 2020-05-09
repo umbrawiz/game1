@@ -19,9 +19,10 @@ public:
 	void loadmap(std::string fname);
 	void loadtile(SDL_Renderer* screen);
 	void draw(SDL_Renderer* screen);
+	Map getmap();
+	void ChangeMap(Map new_map);
 	Map gmap;
 	tilemap tilemap[MAX_TILE];
 
 };
 #endif 
-

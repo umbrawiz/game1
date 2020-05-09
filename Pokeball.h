@@ -3,5 +3,11 @@
 
 #include "Object.h"
 
+class Pokeball :public Object {
+	Pokeball() { ; }
+	~Pokeball() { ; }
+
+};
+
 #endif
 
