@@ -22,8 +22,8 @@ Char::~Char() {
 
 bool Char::Load_Img(std::string path, SDL_Renderer* screen) {
 	bool r = Object::Load_Image(path, screen);
-	if (r==true) {
-		frame_w = rect.w/FRAME_COUNT;
+	if (r == true) {
+		frame_w = rect.w / FRAME_COUNT;
 		frame_h = rect.h;
 
 	}
@@ -179,16 +179,14 @@ void Char::Print(SDL_Renderer* screen) {
 	rect.y = y_pos;
 
 	SDL_Rect* pos = &frame[g_frame];
-	SDL_Rect render = { rect.x,rect.y,frame_w,frame_h };
-
-	SDL_RenderCopy(screen, p_object, pos, &render);
+	Object::render(screen, pos);
 
 }
 
 void Char::mapcheck(Map& map) {
 	int x1 = 0, x2 = 0, y1 = 0, y2 = 0;
 
-	int min_h = frame_h;
+ 	int min_h = frame_h;
 	x1 = (x_pos + x_val) / TILE_SIZE;
 	x2 = (x_pos + x_val + frame_w -1 ) / TILE_SIZE;
 
@@ -240,6 +238,10 @@ void Char::mapcheck(Map& map) {
 				if (map.tile[y2][x1] != 3 || map.tile[y2][x2] != 3) {
 					y_pos = y2 * TILE_SIZE;
 					y_pos -= frame_h + 1;
+					if (y_pos < 0)
+					{
+						y_pos = 0;
+					}
 					y_val = 0;
 				}
 			}

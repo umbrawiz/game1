@@ -12,6 +12,8 @@ public:
 	SDL_Texture* getobject() { return p_object; }
 	virtual bool Load_Image(std::string filepath, SDL_Renderer* screen);
 	void render(SDL_Renderer* des, const SDL_Rect* from = NULL );
+	bool playsound(Mix_Chunk* g_eff);
+	void Free();
 protected:
 	SDL_Rect rect;
 	SDL_Texture* p_object;
