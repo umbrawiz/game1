@@ -9,14 +9,14 @@ Object background;
 bool initSDL()
 {
     bool success = true;
-    int ret = SDL_Init(SDL_INIT_VIDEO);
+    int ret = SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
     if (ret < 0) return false;
 
 
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
     g_window = SDL_CreateWindow("Pacman",
-        SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-        SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
+        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+        SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     if (g_window == NULL)
     {
         success = false;
@@ -34,7 +34,6 @@ bool initSDL()
                 success = false;
         }
 
-        // khoi tao che do font chu
         if (TTF_Init() == -1)
         {
             success = false;
@@ -49,12 +48,11 @@ bool initSDL()
 
 }
 void LoadBackground() {
-	background.Load_Image("img/test.png", g_screen);
+	background.Load_Image("img/white.png", g_screen);
 }
 int main(int argc, char* argv[]) {
 	if (initSDL() == false)
 		return -1;
-
 	LoadBackground();
 	gamemap g_map;
 	g_map.loadmap("map/mapinfo.dat");

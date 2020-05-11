@@ -14,8 +14,8 @@ static SDL_Window* g_window = NULL;
 static SDL_Renderer* g_screen = NULL;
 static SDL_Event g_event ;
 
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 600;
+const int SCREEN_WIDTH = 1200;
+const int SCREEN_HEIGHT = 800;
 const int SCREEN_BPP = 32;
 
 const int COLOR_KEY_R = 167;
@@ -25,14 +25,14 @@ const int COLOR_KEY_B = 180;
 const int RENDER_DRAW_COLOR = 0xff;	
 
 #define TILE_SIZE 50
-#define MAP_W 16
-#define MAP_H 12
+#define MAP_W 24
+#define MAP_H 16
 #define FRAME_COUNT 4
-
-#define Char_speed 0.25;
+#define Char_speed 0.35;
 
 static Mix_Music* g_music = NULL;
-static Mix_Chunk* g_eff = Mix_LoadWAV("sound//Test.wav");
+static Mix_Chunk* g_eff = Mix_LoadWAV("sound//Collect.wav");
+
 
 struct Map {
 	int start_w;

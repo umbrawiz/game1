@@ -55,6 +55,3 @@ void Object::Free()
 	}
 }
 
-bool Object::playsound(Mix_Chunk* g_eff) {
-	return true;
-}

@@ -4,13 +4,7 @@
 #include "Func.h"
 #include "Object.h"
 
-#define MAX_TILE 10
-
-class tilemap : public Object {
-public:
-	tilemap() { ; }
-	~tilemap() { ; }
-};
+#define MAX_TILE 20
 
 class gamemap {
 public:
@@ -22,7 +16,7 @@ public:
 	Map getmap();
 	void ChangeMap(Map new_map);
 	Map gmap;
-	tilemap tilemap[MAX_TILE];
+	Object tilemap[MAX_TILE];
 
 };
 #endif 

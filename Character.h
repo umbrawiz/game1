@@ -5,6 +5,9 @@
 #include "Object.h"
 #include "map.h"
 
+
+
+
 class Char:public Object {
 public:
 	Char();
