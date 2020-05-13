@@ -6,6 +6,15 @@
 
 #define MAX_TILE 20
 
+struct Map {
+	int start_w;
+	int start_h;
+	int max_w;
+	int max_h;
+	char* fname;
+	int tile[MAP_H][MAP_W];
+};
+
 class gamemap {
 public:
 	gamemap() { ; }
@@ -15,6 +24,8 @@ public:
 	void draw(SDL_Renderer* screen);
 	Map getmap();
 	void ChangeMap(Map new_map);
+
+private:
 	Map gmap;
 	Object tilemap[MAX_TILE];
 

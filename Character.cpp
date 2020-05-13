@@ -3,8 +3,8 @@
 
 Char::Char() {
 	g_frame = 0;
-	x_pos = 600;
-	y_pos = 350;
+	x_pos = 0;
+	y_pos = 0;
 	x_val = 0;
 	y_val = 0;
 	frame_w = 0;
@@ -14,6 +14,7 @@ Char::Char() {
 	ip.up = 0;
 	ip.left = 0;
 	ip.right = 0;
+	score = 0;
 }
 
 Char::~Char() {
@@ -211,38 +212,38 @@ void Char::mapcheck(Map& map) {
 	int x1 = 0, x2 = 0, y1 = 0, y2 = 0;
 
 	x1 = (x_pos + x_val) / TILE_SIZE;
-	x2 = (x_pos + x_val + frame_w - 1.1 ) / TILE_SIZE;
+	x2 = (x_pos + x_val + frame_w - 1 ) / TILE_SIZE;
 
 	y1 = (y_pos) / TILE_SIZE;
-	y2 = (y_pos + frame_h - 1.1 ) / TILE_SIZE;
+	y2 = (y_pos + frame_h - 1 ) / TILE_SIZE;
 		
 	if (x1 >= 0 && x2 < MAP_W && y1 >= 0 && y2 < MAP_H) {
 		if (x_val > 0) {
-			if (map.tile[y1][x2] == 6 || map.tile[y2][x2] == 6) {
+			if (map.tile[y1][x2] == POKE_BALL || map.tile[y2][x2] == POKE_BALL) {
 				map.tile[y1][x2] = 3;
 				map.tile[y2][x2] = 3;
 				Mix_PlayChannel(-1, g_eff, 0);
+				IncreaseScore();
 			}
-			else if (map.tile[y1][x2] != 3 || map.tile[y2][x2] != 3) {
-				x_pos = x2 * TILE_SIZE;
-				x_pos -= frame_w + 1.1;
-				x_val = 0;	
-				if (y_pos < 0) {
-					y_pos = 0;
+			else {
+				if (map.tile[y1][x2] != 3 || map.tile[y2][x2] != 3) {
+					x_pos = x2 * TILE_SIZE;
+					x_pos -= frame_w + 1;
+					x_val = 0;
 				}
 			}
 		}
 		else if (x_val < 0) {
-			if (map.tile[y1][x1] == 6 || map.tile[y2][x1] == 6) {
+			if (map.tile[y1][x1] == POKE_BALL || map.tile[y2][x1] == POKE_BALL) {
 				map.tile[y1][x1] = 3;
 				map.tile[y2][x1] = 3;
 				Mix_PlayChannel(-1, g_eff, 0);
+				IncreaseScore();
 			}
-			else if (map.tile[y1][x1] != 3 || map.tile[y2][x1] != 3) {
-				x_pos = (x1 + 1.1) * TILE_SIZE;
-				x_val = 0;
-				if (y_pos < 0) {
-					y_pos = 0;
+			else {
+				if (map.tile[y1][x1] != 3 || map.tile[y2][x1] != 3) {
+					x_pos = (x1 + 1) * TILE_SIZE;
+					x_val = 0;
 				}
 			}
 		}
@@ -252,23 +253,21 @@ void Char::mapcheck(Map& map) {
 	x2 = (x_pos + frame_w) / TILE_SIZE;
 
 	y1 = (y_pos + y_val) / TILE_SIZE;
-	y2 = (y_pos + y_val + frame_h - 1.1) / TILE_SIZE;
+	y2 = (y_pos + y_val + frame_h - 1) / TILE_SIZE;
 
 	if (x1 >= 0 && x2 < MAP_W && y1 >= 0 && y2 < MAP_H) {
 		if (y_val > 0) {
 			if (map.tile[y2][x1] == 6 || map.tile[y2][x2] == 6) {
 				map.tile[y2][x1] = 3;
 				map.tile[y2][x2] = 3;
+				IncreaseScore();
 				Mix_PlayChannel(-1, g_eff, 0);
 			}
 			else {
 				if (map.tile[y2][x1] != 3 || map.tile[y2][x2] != 3) {
 					y_pos = y2 * TILE_SIZE;
-					y_pos -= (frame_h + 1.1);
+					y_pos -= (frame_h + 1);
 					y_val = 0;	
-					if (y_pos < 0) {
-						y_pos = 0;
-					}
 				}
 			}
 		}
@@ -277,11 +276,12 @@ void Char::mapcheck(Map& map) {
 			if (map.tile[y1][x1] == 6 || map.tile[y1][x2] == 6) {
 				map.tile[y1][x1] = 3;
 				map.tile[y1][x2] = 3;
+				IncreaseScore();
 				Mix_PlayChannel(-1, g_eff, 0);
 			}
 			else {
 				if (map.tile[y1][x1] != 3 || map.tile[y1][x2] != 3) {
-					y_pos = (y1 + 1.1) * TILE_SIZE;
+					y_pos = (y1 + 1) * TILE_SIZE;
 					y_val = 0;
 					if (y_pos < 0) {
 						y_pos = 0;
@@ -295,6 +295,12 @@ void Char::mapcheck(Map& map) {
 
 	if (x_pos < 0) {
 		x_pos = 0;
+	}
+	if (x_pos + frame_w > map.max_w) {
+		x_pos = map.max_w - frame_w - 1;
+	}
+	if (y_pos + frame_h > map.max_h) {
+		y_pos = map.max_h - frame_h - 1;
 	}
 
 }
@@ -317,5 +323,18 @@ void Char::spawn(Map& map) {
 	}
 
 	mapcheck(map);
+}
+
+void Char::IncreaseScore() {
+	score+=10;
+}
+
+void Char::SetSpawnPos(int _x_pos , int _y_pos) {
+	x_pos = _x_pos;
+	y_pos = _y_pos;
+}
+
+int Char::GetScore() {
+	return score;
 }
 

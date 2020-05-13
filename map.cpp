@@ -30,18 +30,17 @@ void gamemap::loadmap(std::string fname) {
 }
 
 void gamemap::loadtile(SDL_Renderer* screen) {
-	char file_img[20];
-	FILE* fp = NULL;
-
-	for (int i = 0; i < MAX_TILE; i++) {
-		sprintf_s(file_img, "map/%d.png", i);
-		fopen_s(&fp, file_img, "rb");
-		if (fp == NULL) {
-			continue;
-		}
-		fclose(fp);
-		tilemap[i].Load_Image(file_img, screen);
-	}
+	tilemap[0].Load_Image("map/0.png", screen);
+	tilemap[1].Load_Image("map/1.png", screen);
+	tilemap[2].Load_Image("map/2.png", screen);
+	tilemap[3].Load_Image("map/3.png", screen);
+	tilemap[4].Load_Image("map/4.png", screen);
+	tilemap[5].Load_Image("map/5.png", screen);
+	tilemap[6].Load_Image("map/6.png", screen);
+	tilemap[7].Load_Image("map/7.png", screen);
+	tilemap[8].Load_Image("map/8.png", screen);
+	tilemap[9].Load_Image("map/9.png", screen);
+	tilemap[10].Load_Image("map/10.png", screen);
 }
 
 void gamemap::draw(SDL_Renderer* screen) {

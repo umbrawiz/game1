@@ -12,7 +12,7 @@
 
 static SDL_Window* g_window = NULL;
 static SDL_Renderer* g_screen = NULL;
-static SDL_Event g_event ;
+static SDL_Event g_event;
 
 const int SCREEN_WIDTH = 1200;
 const int SCREEN_HEIGHT = 800;
@@ -28,27 +28,13 @@ const int RENDER_DRAW_COLOR = 0xff;
 #define MAP_W 24
 #define MAP_H 16
 #define FRAME_COUNT 4
-#define Char_speed 0.35;
+#define Char_speed 0.45
+#define POKE_BALL 6
 
 static Mix_Music* g_music = NULL;
 static Mix_Chunk* g_eff = Mix_LoadWAV("sound//Collect.wav");
+static Mix_Music* g_menu_music = NULL;
 
-
-struct Map {
-	int start_w;
-	int start_h;
-	int max_w;
-	int max_h;
-	char* fname;
-	int tile[MAP_H][MAP_W];
-};
-
-struct InputFK {
-	int left;
-	int right;
-	int up;
-	int down;
-};
 
 #endif
 

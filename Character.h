@@ -6,7 +6,12 @@
 #include "map.h"
 
 
-
+struct InputFK {
+	int left;
+	int right;
+	int up;
+	int down;
+};
 
 class Char:public Object {
 public:
@@ -16,10 +21,13 @@ public:
 	bool Load_Img(std::string path, SDL_Renderer* screen);
 	void Print(SDL_Renderer* screen);
 	void KeyPress(SDL_Event ev, SDL_Renderer* screen);
+	void SetSpawnPos(int _x_pos, int _y_pos);
 	void animation();
 	void mapcheck(Map& map);
 	void spawn(Map& map);
-
+	void IncreaseScore();
+	void SetRandomPos(Map& map);
+	int GetScore();
 	enum movement {
 		move_right = 0,
 		move_left = 1,
@@ -42,6 +50,8 @@ private:
 
 	int g_frame;
 	int status;
+
+	int score;
 };
 
 #endif
