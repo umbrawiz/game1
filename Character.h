@@ -26,7 +26,9 @@ public:
 	void mapcheck(Map& map);
 	void spawn(Map& map);
 	void IncreaseScore();
-	void SetRandomPos(Map& map);
+	void Col() {
+		is_col = true;
+	}
 	int GetScore();
 	enum movement {
 		move_right = 0,
@@ -52,6 +54,8 @@ private:
 	int status;
 
 	int score;
+
+	bool is_col;
 };
 
 #endif

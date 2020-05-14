@@ -76,3 +76,13 @@ Map gamemap::getmap() {
 void gamemap::ChangeMap(Map new_map) {
 	gmap = new_map;
 }
+
+void gamemap::SetRandomPos() {
+	int x, y;
+	do {
+		x = rand() % 24 + 1;
+		y = rand() % 16 + 1;
+	} while (gmap.tile[y][x] != 3);
+
+	gmap.tile[y][x] = POKE_BALL;
+} 

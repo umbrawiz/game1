@@ -9,6 +9,7 @@ Object menu;
 Object background;
 TTF_Font* font;
 TTF_Font* menu_font;
+TTF_Font* menu_font_1;
 
 bool initSDL()
 {
@@ -43,9 +44,10 @@ bool initSDL()
             success = false;
         }
 
-        menu_font = TTF_OpenFont("font//Andy Bold.ttf", 70);
-        font = TTF_OpenFont("font//Andy Bold.ttf", 50);
-        if (font != NULL && menu_font != NULL) {
+        menu_font = TTF_OpenFont("font//Andy Bold.ttf", 50);
+        menu_font_1 = TTF_OpenFont("font//Andy Bold.ttf", 70);
+        font = TTF_OpenFont("font//Andy Bold.ttf", 40);
+        if (font != NULL && menu_font != NULL && menu_font_1 !=NULL) {
             success = true;
         }
 
@@ -62,6 +64,7 @@ void LoadBackground() {
 	background.Load_Image("img/white.png", g_screen);
 }
 int main(int argc, char* argv[]) {
+    srand(time(NULL));
 	if (initSDL() == false) return -1;
     LoadBackground();
 	gamemap g_map;
@@ -72,18 +75,34 @@ int main(int argc, char* argv[]) {
     g_menu_music = Mix_LoadMUS("sound/g_menu.mp3");
     Mix_VolumeMusic(80);
 
+
+    bool selected[2] = { 0,0 };
+    SDL_Event m_event;
+    int xm = 0;
+    int ym = 0;
+
 	Char player;
     player.SetSpawnPos(600, 350);
 	player.Load_Img("img/Down.png", g_screen);
 	player.animation();
+
+    for (int i = 0; i < 20; i++) {
+        g_map.SetRandomPos();
+    }
+    
 
     int score_count;
     Text score;
     score.SetColor(Text::BLACK);
 
     Text menu_tile;
-    menu_tile.SetColor(Text::WHITE);
+    menu_tile.SetColor(Text::SILVER);
+
+    Text menu_tile2;
+    menu_tile2.SetColor(Text::BLACK);
     
+    Text time;
+    time.SetColor(Text::BLACK);
 
 	bool quit = false;
     
@@ -111,11 +130,18 @@ int main(int argc, char* argv[]) {
         SDL_RenderClear(g_screen);
         menu.render(g_screen, NULL);
 
-        std::string str = "Press any key to continue";
-        menu_tile.SetText(str);
+        std::string str1 = "Start";
+        menu_tile.SetText(str1);
         menu_tile.LoadFromRenderText(menu_font, g_screen);
-        menu_tile.RenderText(g_screen, 280 , SCREEN_HEIGHT - 100);
+        menu_tile.RenderText(g_screen, 550 , SCREEN_HEIGHT - 400);
 
+
+        std::string str2 = "Quit";
+        menu_tile.SetText(str2);
+        menu_tile.LoadFromRenderText(menu_font, g_screen);
+        menu_tile.RenderText(g_screen, 560, SCREEN_HEIGHT - 300);
+
+ 
         SDL_RenderPresent(g_screen);
     }
     Mix_FreeMusic(g_menu_music);
@@ -142,7 +168,8 @@ int main(int argc, char* argv[]) {
 		SDL_RenderClear(g_screen);
 		background.render(g_screen, NULL);
 		Map new_map = g_map.getmap();
-		player.spawn(new_map);
+        player.spawn(new_map);  
+        
 		g_map.ChangeMap(new_map);
 		g_map.draw(g_screen);
 		player.Print(g_screen);
@@ -151,7 +178,16 @@ int main(int argc, char* argv[]) {
         std::string current_score = std::to_string(score_count);
         score.SetText(current_score);
         score.LoadFromRenderText(font, g_screen);
-        score.RenderText(g_screen, 0, 0);
+        score.RenderText(g_screen, 50 , 0);
+
+
+        std::string time_str = "Time Remaining : ";
+        UINT32 time_val = (SDL_GetTicks() / 1000);
+        UINT32 time_val_remaining = 30 - (SDL_GetTicks() / 1000);
+        time_str += std::to_string(time_val_remaining);
+        time.SetText(time_str);
+        time.LoadFromRenderText(font, g_screen);
+        time.RenderText(g_screen, 850 , 0);
 
 		SDL_RenderPresent(g_screen);
 	

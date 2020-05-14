@@ -9,6 +9,9 @@
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
+#include <stdlib.h>
+#include <time.h>
+
 
 static SDL_Window* g_window = NULL;
 static SDL_Renderer* g_screen = NULL;
@@ -30,6 +33,7 @@ const int RENDER_DRAW_COLOR = 0xff;
 #define FRAME_COUNT 4
 #define Char_speed 0.45
 #define POKE_BALL 6
+
 
 static Mix_Music* g_music = NULL;
 static Mix_Chunk* g_eff = Mix_LoadWAV("sound//Collect.wav");
