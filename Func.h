@@ -31,13 +31,18 @@ const int RENDER_DRAW_COLOR = 0xff;
 #define MAP_W 24
 #define MAP_H 16
 #define FRAME_COUNT 4
-#define Char_speed 0.45
+#define Char_speed 0.5
 #define POKE_BALL 6
-
+#define SPIKE 5
+#define POKEBALLNUM 20
+#define SPIKENUM 20
+#define PLAYER_SPAWN_POINT_X 600
+#define PLAYER_SPAWN_POINT_Y 350
+#define KNOCK_BACK_DISTANCE 20
 
 static Mix_Music* g_music = NULL;
-static Mix_Chunk* g_eff = Mix_LoadWAV("sound//Collect.wav");
 static Mix_Music* g_menu_music = NULL;
+static Mix_Music* g_result_music = NULL;
 
 
 #endif

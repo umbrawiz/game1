@@ -24,7 +24,8 @@ public:
 	void draw(SDL_Renderer* screen);
 	Map getmap();
 	void ChangeMap(Map new_map);
-	void SetRandomPos();
+	void SetRandomPBPos();
+	void SetRandomSPPos();
 private:
 	Map gmap;
 	Object tilemap[MAX_TILE];

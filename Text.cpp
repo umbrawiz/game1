@@ -61,6 +61,11 @@ void Text::SetColor(int type) {
 		text_clr.g = 192;
 		text_clr.b = 192;
 	}
+	else if (type == YELLOW) {
+		text_clr.r = 230;
+		text_clr.g = 230;
+		text_clr.b = 0;
+	}
 }
 
 void Text::RenderText(SDL_Renderer* screen, int x, int y, double angle, SDL_Point* center, SDL_RendererFlip flip, SDL_Rect* clip) {
@@ -71,3 +76,5 @@ void Text::RenderText(SDL_Renderer* screen, int x, int y, double angle, SDL_Poin
 	}
 	SDL_RenderCopyEx(screen, texture, clip, &renderquad, angle, center, flip);
 }
+
+

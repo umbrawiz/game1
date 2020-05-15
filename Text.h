@@ -2,8 +2,9 @@
 #define TEXT_H
 
 #include "Func.h"
+#include "Object.h"
 
-class Text {
+class Text : public Object{
 public:
 	Text();
 	~Text();
@@ -14,6 +15,7 @@ public:
 		BLACK = 2,
 		GRAY = 3,
 		SILVER = 4,
+		YELLOW = 5,
 	};
 
 	bool LoadText(std::string path);

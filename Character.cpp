@@ -15,6 +15,7 @@ Char::Char() {
 	ip.left = 0;
 	ip.right = 0;
 	score = 0;
+	hp = 4;
 }
 
 Char::~Char() {
@@ -208,7 +209,7 @@ void Char::Print(SDL_Renderer* screen) {
 
 }
 
-void Char::mapcheck(Map& map) {
+void Char::mapcheck(Map& map , Mix_Chunk* g_eff) {
 	int x1 = 0, x2 = 0, y1 = 0, y2 = 0;
 
 	x1 = (x_pos + x_val) / TILE_SIZE;
@@ -227,13 +228,18 @@ void Char::mapcheck(Map& map) {
 			}
 			else {
 				if (map.tile[y1][x2] != 3 || map.tile[y2][x2] != 3) {
-					x_pos = x2 * TILE_SIZE;
+					x_pos = (x2 ) * TILE_SIZE;
 					x_pos -= frame_w + 1;
 					x_val = 0;
+				}
+				if (map.tile[y1][x2] == SPIKE || map.tile[y2][x2] == SPIKE) {
+					DecreaseHp();
+					x_pos -= KNOCK_BACK_DISTANCE;
 				}
 			}
 		}
 		else if (x_val < 0) {
+
 			if (map.tile[y1][x1] == POKE_BALL || map.tile[y2][x1] == POKE_BALL) {
 				map.tile[y1][x1] = 3;
 				map.tile[y2][x1] = 3;
@@ -244,6 +250,10 @@ void Char::mapcheck(Map& map) {
 				if (map.tile[y1][x1] != 3 || map.tile[y2][x1] != 3) {
 					x_pos = (x1 + 1) * TILE_SIZE;
 					x_val = 0;
+					if (map.tile[y1][x1] == SPIKE || map.tile[y2][x1] == SPIKE) {
+						DecreaseHp();
+						x_pos += KNOCK_BACK_DISTANCE;
+					}
 				}
 			}
 		}
@@ -257,6 +267,7 @@ void Char::mapcheck(Map& map) {
 
 	if (x1 >= 0 && x2 < MAP_W && y1 >= 0 && y2 < MAP_H) {
 		if (y_val > 0) {
+			
 			if (map.tile[y2][x1] == 6 || map.tile[y2][x2] == 6) {
 				map.tile[y2][x1] = 3;
 				map.tile[y2][x2] = 3;
@@ -265,9 +276,13 @@ void Char::mapcheck(Map& map) {
 			}
 			else {
 				if (map.tile[y2][x1] != 3 || map.tile[y2][x2] != 3) {
-					y_pos = y2 * TILE_SIZE;
+					y_pos = (y2 )* TILE_SIZE;
 					y_pos -= (frame_h + 1);
 					y_val = 0;	
+					if (map.tile[y2][x1] == SPIKE || map.tile[y2][x2] == SPIKE) {
+						DecreaseHp();
+						y_pos -= KNOCK_BACK_DISTANCE;
+					}
 				}
 			}
 		}
@@ -283,8 +298,9 @@ void Char::mapcheck(Map& map) {
 				if (map.tile[y1][x1] != 3 || map.tile[y1][x2] != 3) {
 					y_pos = (y1 + 1) * TILE_SIZE;
 					y_val = 0;
-					if (y_pos < 0) {
-						y_pos = 0;
+					if (map.tile[y1][x1] == SPIKE || map.tile[y1][x2] == SPIKE) {
+						DecreaseHp();
+						y_pos += KNOCK_BACK_DISTANCE;
 					}
 				}
 			}
@@ -299,13 +315,10 @@ void Char::mapcheck(Map& map) {
 	if (x_pos + frame_w > map.max_w) {
 		x_pos = map.max_w - frame_w - 1;
 	}
-	if (y_pos + frame_h > map.max_h) {
-		y_pos = map.max_h - frame_h - 1;
-	}
 
 }
 
-void Char::spawn(Map& map) {
+void Char::spawn(Map& map , Mix_Chunk* g_eff) {
 	x_val = 0;
 	y_val = 0;
 
@@ -322,11 +335,16 @@ void Char::spawn(Map& map) {
 		y_val += Char_speed;
 	}
 
-	mapcheck(map);
+	mapcheck(map,g_eff);
 }
 
 void Char::IncreaseScore() {
-	score+=10;
+	score++;
+}
+
+void Char::DecreaseHp() {
+	hp--;
+	SDL_Delay(200);
 }
 
 void Char::SetSpawnPos(int _x_pos , int _y_pos) {
@@ -338,3 +356,6 @@ int Char::GetScore() {
 	return score;
 }
 
+int Char::GetHp() {
+	return hp;
+}

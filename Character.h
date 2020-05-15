@@ -23,13 +23,15 @@ public:
 	void KeyPress(SDL_Event ev, SDL_Renderer* screen);
 	void SetSpawnPos(int _x_pos, int _y_pos);
 	void animation();
-	void mapcheck(Map& map);
-	void spawn(Map& map);
+	void mapcheck(Map& map , Mix_Chunk* g_eff);
+	void spawn(Map& map , Mix_Chunk* g_eff);
 	void IncreaseScore();
+	void DecreaseHp();
 	void Col() {
 		is_col = true;
 	}
 	int GetScore();
+	int GetHp();
 	enum movement {
 		move_right = 0,
 		move_left = 1,
@@ -54,6 +56,8 @@ private:
 	int status;
 
 	int score;
+
+	int hp;
 
 	bool is_col;
 };

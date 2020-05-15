@@ -38,9 +38,6 @@ void gamemap::loadtile(SDL_Renderer* screen) {
 	tilemap[5].Load_Image("map/5.png", screen);
 	tilemap[6].Load_Image("map/6.png", screen);
 	tilemap[7].Load_Image("map/7.png", screen);
-	tilemap[8].Load_Image("map/8.png", screen);
-	tilemap[9].Load_Image("map/9.png", screen);
-	tilemap[10].Load_Image("map/10.png", screen);
 }
 
 void gamemap::draw(SDL_Renderer* screen) {
@@ -77,12 +74,23 @@ void gamemap::ChangeMap(Map new_map) {
 	gmap = new_map;
 }
 
-void gamemap::SetRandomPos() {
+void gamemap::SetRandomPBPos() {
 	int x, y;
 	do {
 		x = rand() % 24 + 1;
 		y = rand() % 16 + 1;
-	} while (gmap.tile[y][x] != 3);
+	} while (gmap.tile[y][x] != 3 || (x == PLAYER_SPAWN_POINT_X / TILE_SIZE && y == PLAYER_SPAWN_POINT_Y / TILE_SIZE));
 
 	gmap.tile[y][x] = POKE_BALL;
-} 
+}
+
+void gamemap::SetRandomSPPos() {
+	int x, y;
+	do {
+		x = rand() % 24 + 1;
+		y = rand() % 16 + 1;
+	} while (gmap.tile[y][x] != 3 || gmap.tile[y+1][x] == SPIKE || gmap.tile[y][x+1] == SPIKE 
+		|| ( x == PLAYER_SPAWN_POINT_X/TILE_SIZE && y == PLAYER_SPAWN_POINT_Y/TILE_SIZE));
+
+	gmap.tile[y][x] = SPIKE;
+}
