@@ -16,6 +16,7 @@
 static SDL_Window* g_window = NULL;
 static SDL_Renderer* g_screen = NULL;
 static SDL_Event g_event;
+static SDL_Surface* g_icon = NULL;
 
 const int SCREEN_WIDTH = 1200;
 const int SCREEN_HEIGHT = 800;
@@ -34,11 +35,12 @@ const int RENDER_DRAW_COLOR = 0xff;
 #define Char_speed 0.5
 #define POKE_BALL 6
 #define SPIKE 5
+#define BLANK 3
 #define POKEBALLNUM 20
-#define SPIKENUM 20
+#define SPIKENUM 10
 #define PLAYER_SPAWN_POINT_X 600
 #define PLAYER_SPAWN_POINT_Y 350
-#define KNOCK_BACK_DISTANCE 20
+#define KNOCK_BACK_DISTANCE 15
 
 static Mix_Music* g_music = NULL;
 static Mix_Music* g_menu_music = NULL;

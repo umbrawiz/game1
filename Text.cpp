@@ -17,6 +17,8 @@ bool Text::LoadFromRenderText(TTF_Font* font, SDL_Renderer* screen) {
 		texture = SDL_CreateTextureFromSurface(screen, surface);
 		width = surface->w;
 		height = surface->h;
+		rect.w = width;
+		rect.h = height;
 		SDL_FreeSurface(surface);
 	}
 	return texture != NULL;
@@ -62,8 +64,8 @@ void Text::SetColor(int type) {
 		text_clr.b = 192;
 	}
 	else if (type == YELLOW) {
-		text_clr.r = 230;
-		text_clr.g = 230;
+		text_clr.r = 255;
+		text_clr.g = 215;
 		text_clr.b = 0;
 	}
 }

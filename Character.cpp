@@ -115,60 +115,36 @@ void Char::KeyPress(SDL_Event ev, SDL_Renderer* screen) {
 		switch (ev.key.keysym.sym) {
 		case SDLK_RIGHT: {
 			ip.right = 0;
-			ip.left = 0;
-			ip.down = 0;
-			ip.up = 0;
 		}
 					   break;
 		case SDLK_d: {
 			ip.right = 0;
-			ip.left = 0;
-			ip.down = 0;
-			ip.up = 0;
 		}
 					   break;
 		case SDLK_LEFT: {
 			ip.left = 0;
-			ip.left = 0;
-			ip.down = 0;
-			ip.up = 0;
 		}
 					  break;
 		case SDLK_a: {
 			ip.left = 0;
-			ip.left = 0;
-			ip.down = 0;
-			ip.up = 0;
 		}
 					  break;
 		case SDLK_UP: {
-			ip.up = 0;
-			ip.left = 0;
-			ip.down = 0;
 			ip.up = 0;
 
 		}
 					break;
 		case SDLK_w: {
 			ip.up = 0;
-			ip.left = 0;
-			ip.down = 0;
-			ip.up = 0;
 
 		}
 					break;
 		case SDLK_DOWN: {
 			ip.down = 0;
-			ip.left = 0;
-			ip.down = 0;
-			ip.up = 0;
 		}
 					  break;
 		case SDLK_s: {
 			ip.down = 0;
-			ip.left = 0;
-			ip.down = 0;
-			ip.up = 0;
 		}
 					  break;
 		}
@@ -209,13 +185,13 @@ void Char::Print(SDL_Renderer* screen) {
 
 }
 
-void Char::mapcheck(Map& map , Mix_Chunk* g_eff) {
+void Char::mapcheck(Map& map , Mix_Chunk* g_eff , Mix_Chunk* g_eff_1) {
 	int x1 = 0, x2 = 0, y1 = 0, y2 = 0;
 
 	x1 = (x_pos + x_val) / TILE_SIZE;
 	x2 = (x_pos + x_val + frame_w - 1 ) / TILE_SIZE;
 
-	y1 = (y_pos) / TILE_SIZE;
+	y1 = (y_pos) / TILE_SIZE; 
 	y2 = (y_pos + frame_h - 1 ) / TILE_SIZE;
 		
 	if (x1 >= 0 && x2 < MAP_W && y1 >= 0 && y2 < MAP_H) {
@@ -227,13 +203,13 @@ void Char::mapcheck(Map& map , Mix_Chunk* g_eff) {
 				IncreaseScore();
 			}
 			else {
-				if (map.tile[y1][x2] != 3 || map.tile[y2][x2] != 3) {
+				if (map.tile[y1][x2] != BLANK || map.tile[y2][x2] != BLANK) {
 					x_pos = (x2 ) * TILE_SIZE;
 					x_pos -= frame_w + 1;
 					x_val = 0;
 				}
 				if (map.tile[y1][x2] == SPIKE || map.tile[y2][x2] == SPIKE) {
-					DecreaseHp();
+					DecreaseHp(g_eff_1);
 					x_pos -= KNOCK_BACK_DISTANCE;
 				}
 			}
@@ -247,11 +223,11 @@ void Char::mapcheck(Map& map , Mix_Chunk* g_eff) {
 				IncreaseScore();
 			}
 			else {
-				if (map.tile[y1][x1] != 3 || map.tile[y2][x1] != 3) {
+				if (map.tile[y1][x1] != BLANK || map.tile[y2][x1] != BLANK) {
 					x_pos = (x1 + 1) * TILE_SIZE;
 					x_val = 0;
 					if (map.tile[y1][x1] == SPIKE || map.tile[y2][x1] == SPIKE) {
-						DecreaseHp();
+						DecreaseHp(g_eff_1);
 						x_pos += KNOCK_BACK_DISTANCE;
 					}
 				}
@@ -268,7 +244,7 @@ void Char::mapcheck(Map& map , Mix_Chunk* g_eff) {
 	if (x1 >= 0 && x2 < MAP_W && y1 >= 0 && y2 < MAP_H) {
 		if (y_val > 0) {
 			
-			if (map.tile[y2][x1] == 6 || map.tile[y2][x2] == 6) {
+			if (map.tile[y2][x1] == POKE_BALL || map.tile[y2][x2] == POKE_BALL) {
 				map.tile[y2][x1] = 3;
 				map.tile[y2][x2] = 3;
 				IncreaseScore();
@@ -276,11 +252,11 @@ void Char::mapcheck(Map& map , Mix_Chunk* g_eff) {
 			}
 			else {
 				if (map.tile[y2][x1] != 3 || map.tile[y2][x2] != 3) {
-					y_pos = (y2 )* TILE_SIZE;
+					y_pos = (y2)* TILE_SIZE;
 					y_pos -= (frame_h + 1);
 					y_val = 0;	
 					if (map.tile[y2][x1] == SPIKE || map.tile[y2][x2] == SPIKE) {
-						DecreaseHp();
+						DecreaseHp(g_eff_1);
 						y_pos -= KNOCK_BACK_DISTANCE;
 					}
 				}
@@ -288,7 +264,7 @@ void Char::mapcheck(Map& map , Mix_Chunk* g_eff) {
 		}
 
 		else if (y_val < 0) {
-			if (map.tile[y1][x1] == 6 || map.tile[y1][x2] == 6) {
+			if (map.tile[y1][x1] == POKE_BALL || map.tile[y1][x2] == POKE_BALL) {
 				map.tile[y1][x1] = 3;
 				map.tile[y1][x2] = 3;
 				IncreaseScore();
@@ -299,7 +275,7 @@ void Char::mapcheck(Map& map , Mix_Chunk* g_eff) {
 					y_pos = (y1 + 1) * TILE_SIZE;
 					y_val = 0;
 					if (map.tile[y1][x1] == SPIKE || map.tile[y1][x2] == SPIKE) {
-						DecreaseHp();
+						DecreaseHp(g_eff_1);
 						y_pos += KNOCK_BACK_DISTANCE;
 					}
 				}
@@ -312,13 +288,13 @@ void Char::mapcheck(Map& map , Mix_Chunk* g_eff) {
 	if (x_pos < 0) {
 		x_pos = 0;
 	}
-	if (x_pos + frame_w > map.max_w) {
+	else if (x_pos + frame_w > map.max_w) {
 		x_pos = map.max_w - frame_w - 1;
 	}
 
 }
 
-void Char::spawn(Map& map , Mix_Chunk* g_eff) {
+void Char::spawn(Map& map , Mix_Chunk* g_eff , Mix_Chunk* g_eff_1) {
 	x_val = 0;
 	y_val = 0;
 
@@ -335,16 +311,17 @@ void Char::spawn(Map& map , Mix_Chunk* g_eff) {
 		y_val += Char_speed;
 	}
 
-	mapcheck(map,g_eff);
+	mapcheck(map,g_eff,g_eff_1);
 }
 
 void Char::IncreaseScore() {
 	score++;
 }
 
-void Char::DecreaseHp() {
+void Char::DecreaseHp(Mix_Chunk* g_eff) {
 	hp--;
-	SDL_Delay(200);
+	Mix_PlayChannel(-1, g_eff, 0);
+	SDL_Delay(300);
 }
 
 void Char::SetSpawnPos(int _x_pos , int _y_pos) {

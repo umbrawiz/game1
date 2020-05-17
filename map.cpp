@@ -79,7 +79,10 @@ void gamemap::SetRandomPBPos() {
 	do {
 		x = rand() % 24 + 1;
 		y = rand() % 16 + 1;
-	} while (gmap.tile[y][x] != 3 || (x == PLAYER_SPAWN_POINT_X / TILE_SIZE && y == PLAYER_SPAWN_POINT_Y / TILE_SIZE));
+	} while (gmap.tile[y][x] != 3 || (x == PLAYER_SPAWN_POINT_X / TILE_SIZE && y == PLAYER_SPAWN_POINT_Y / TILE_SIZE) 
+		|| gmap.tile[y + 1][x] == POKE_BALL || gmap.tile[y + 1][x+1] == POKE_BALL || gmap.tile[y+1][x-1] == POKE_BALL
+		|| gmap.tile[y][x-1] == POKE_BALL || gmap.tile[y][x+1] == POKE_BALL 
+		|| gmap.tile[y-1][x] == POKE_BALL || gmap.tile[y - 1][x+1] == POKE_BALL || gmap.tile[y - 1][x-1] == POKE_BALL);
 
 	gmap.tile[y][x] = POKE_BALL;
 }
@@ -89,8 +92,10 @@ void gamemap::SetRandomSPPos() {
 	do {
 		x = rand() % 24 + 1;
 		y = rand() % 16 + 1;
-	} while (gmap.tile[y][x] != 3 || gmap.tile[y+1][x] == SPIKE || gmap.tile[y][x+1] == SPIKE 
-		|| ( x == PLAYER_SPAWN_POINT_X/TILE_SIZE && y == PLAYER_SPAWN_POINT_Y/TILE_SIZE));
+	} while (gmap.tile[y][x] != 3 || (x == PLAYER_SPAWN_POINT_X / TILE_SIZE && y == PLAYER_SPAWN_POINT_Y / TILE_SIZE)
+		|| gmap.tile[y + 1][x] == SPIKE || gmap.tile[y + 1][x + 1] == SPIKE || gmap.tile[y + 1][x - 1] == SPIKE
+		|| gmap.tile[y][x - 1] == SPIKE || gmap.tile[y][x + 1] == SPIKE
+		|| gmap.tile[y - 1][x] == SPIKE || gmap.tile[y - 1][x + 1] == SPIKE || gmap.tile[y - 1][x - 1] == SPIKE);
 
 	gmap.tile[y][x] = SPIKE;
 }
