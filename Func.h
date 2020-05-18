@@ -46,6 +46,12 @@ static Mix_Music* g_music = NULL;
 static Mix_Music* g_menu_music = NULL;
 static Mix_Music* g_result_music = NULL;
 
+namespace SDLCommonFunc
+{
+    int ShowMenu(SDL_Renderer* screen, TTF_Font* font, TTF_Font* font_big, TTF_Font* font_small);
+    bool CheckFocus(const int& x, const int& y, SDL_Rect rect);
+}
+
 
 #endif
 
