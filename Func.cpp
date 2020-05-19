@@ -68,6 +68,7 @@ int SDLCommonFunc::ShowMenu(SDL_Renderer* screen, TTF_Font* font, TTF_Font* font
                         if (selected[i] == false) {
                             selected[i] = true;
                             menu_tile[i].setColor(255, 255, 0);
+                            Mix_PlayChannel(-1, g_menu_tick, 0);
                             is_focus = true;
                             idx = i;
                         }
@@ -80,7 +81,6 @@ int SDLCommonFunc::ShowMenu(SDL_Renderer* screen, TTF_Font* font, TTF_Font* font
                             selected[i] = false;
                             menu_tile[i].Free();
                             menu_tile[i].setColor(200, 200, 200);
-                            Mix_PlayChannel(-1, g_menu_tick, 0);
                             is_focus = false;
                             idx = i;
                         }

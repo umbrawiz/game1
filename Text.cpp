@@ -1,7 +1,7 @@
 
 #include "Text.h"
 
-Text::Text(void)
+Text::Text()
 {
     text_color.r = 255;
     text_color.g = 255;
@@ -10,31 +10,25 @@ Text::Text(void)
 }
 
 
-Text::~Text(void)
+Text::~Text()
 {
 }
 
 
 bool Text::loadFromRenderedText(TTF_Font* gFont, SDL_Renderer* screen)
 {
-    //Render text surface
     SDL_Surface* textSurface = TTF_RenderText_Solid(gFont, str_val.c_str(), text_color);
     if (textSurface != NULL)
     {
-        //Create texture from surface pixels
         texture = SDL_CreateTextureFromSurface(screen, textSurface);
         if (texture != NULL)
         {
-            //Get image dimensions
             width = textSurface->w;
             height = textSurface->h;
         }
-
-        //Get rid of old surface
         SDL_FreeSurface(textSurface);
     }
 
-    //Return success
     return texture != NULL;
 }
 
@@ -72,18 +66,14 @@ void Text::setColor(int type)
         text_color = color;
     }
 }
-void Text::RenderText(SDL_Renderer* screen, int x, int y, SDL_Rect* clip /* = NULL */, double angle /* = 0.0 */, SDL_Point* center /* = NULL */, SDL_RendererFlip flip /* = SDL_FLIP_NONE */)
+void Text::RenderText(SDL_Renderer* screen, int x, int y, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip)
 {
-    //Set rendering space and render to screen
     SDL_Rect renderQuad = { x, y, width, height };
 
-    //Set clip rendering dimensions
     if (clip != NULL)
     {
         renderQuad.w = clip->w;
         renderQuad.h = clip->h;
     }
-
-    //Render to screen
     SDL_RenderCopyEx(screen, texture, clip, &renderQuad, angle, center, flip);
 }

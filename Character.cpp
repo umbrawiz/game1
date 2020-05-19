@@ -285,13 +285,6 @@ void Char::mapcheck(Map& map , Mix_Chunk* g_eff , Mix_Chunk* g_eff_1) {
 	x_pos += x_val;
 	y_pos += y_val;
 
-	if (x_pos < 0) {
-		x_pos = 0;
-	}
-	else if (x_pos + frame_w > map.max_w) {
-		x_pos = map.max_w - frame_w - 1;
-	}
-
 }
 
 void Char::spawn(Map& map , Mix_Chunk* g_eff , Mix_Chunk* g_eff_1) {

@@ -39,9 +39,6 @@ bool initSDL()
         else
         {
             SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
-            int imgFlags = IMG_INIT_PNG;
-            if (!(IMG_Init(imgFlags) && imgFlags))
-                success = false;
         }
 
         if (TTF_Init() == -1)
@@ -50,7 +47,7 @@ bool initSDL()
         }
 
         menu_font = TTF_OpenFont("font//Andy Bold.ttf", 50);
-        menu_font_1 = TTF_OpenFont("font//Andy Bold.ttf", 70);
+        menu_font_1 = TTF_OpenFont("font//Andy Bold.ttf", 60);
         font = TTF_OpenFont("font//Andy Bold.ttf", 40);
 
         if (font != NULL && menu_font != NULL && menu_font_1 != NULL) {
@@ -112,7 +109,7 @@ int main(int argc, char* argv[])
             thinking = false;
             playing = false;
         }
-
+        
         
 
         // MAP
@@ -131,7 +128,7 @@ int main(int argc, char* argv[])
         // MUSIC
         g_music = Mix_LoadMUS("sound/Test.mp3");
         g_result_music = Mix_LoadMUS("sound/g_result.mp3");
-        Mix_VolumeMusic(64);
+        Mix_VolumeMusic(50);
 
         // PLAYER
         Char player;

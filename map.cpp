@@ -43,17 +43,14 @@ void gamemap::loadtile(SDL_Renderer* screen) {
 void gamemap::draw(SDL_Renderer* screen) {
 	int w1 = 0, w2 = 0, h1 = 0, h2 = 0;
 	int pos_w = 0, pos_h = 0;
-	pos_w = (gmap.start_w) / TILE_SIZE;
+	pos_w = 0;
 
-	w1 = gmap.start_w / TILE_SIZE;
-	w2 = w1 + SCREEN_WIDTH;
-
-	h1 = gmap.start_h / TILE_SIZE;
-	h2 = h1 + SCREEN_HEIGHT;
+	w2 = SCREEN_WIDTH;
+	h2 = SCREEN_HEIGHT;
 	gmap.start_w = 0;
 	gmap.start_h = 0;
 	for (int i = h1; i < h2; i += TILE_SIZE) {
-		int pos_w = (gmap.start_w) / TILE_SIZE;
+		pos_w = (gmap.start_w) / TILE_SIZE;
 		for (int j = w1; j < w2; j += TILE_SIZE) {
 			int val = gmap.tile[pos_h][pos_w];
 			if (val > 0) {
@@ -77,8 +74,8 @@ void gamemap::ChangeMap(Map new_map) {
 void gamemap::SetRandomPBPos() {
 	int x, y;
 	do {
-		x = rand() % 24 + 1;
-		y = rand() % 16 + 1;
+		x = rand() % 24 ;
+		y = rand() % 16 ;
 	} while (gmap.tile[y][x] != 3 || (x == PLAYER_SPAWN_POINT_X / TILE_SIZE && y == PLAYER_SPAWN_POINT_Y / TILE_SIZE) 
 		|| gmap.tile[y + 1][x] == POKE_BALL || gmap.tile[y + 1][x+1] == POKE_BALL || gmap.tile[y+1][x-1] == POKE_BALL
 		|| gmap.tile[y][x-1] == POKE_BALL || gmap.tile[y][x+1] == POKE_BALL 
@@ -90,8 +87,8 @@ void gamemap::SetRandomPBPos() {
 void gamemap::SetRandomSPPos() {
 	int x, y;
 	do {
-		x = rand() % 24 + 1;
-		y = rand() % 16 + 1;
+		x = rand() % 24 ;
+		y = rand() % 16 ;
 	} while (gmap.tile[y][x] != 3 || (x == PLAYER_SPAWN_POINT_X / TILE_SIZE && y == PLAYER_SPAWN_POINT_Y / TILE_SIZE)
 		|| gmap.tile[y + 1][x] == SPIKE || gmap.tile[y + 1][x + 1] == SPIKE || gmap.tile[y + 1][x - 1] == SPIKE
 		|| gmap.tile[y][x - 1] == SPIKE || gmap.tile[y][x + 1] == SPIKE

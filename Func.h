@@ -26,13 +26,13 @@ const int COLOR_KEY_R = 167;
 const int COLOR_KEY_G = 175;
 const int COLOR_KEY_B = 180;
 
-const int RENDER_DRAW_COLOR = 0xff;	
+const int RENDER_DRAW_COLOR = 255;	
 
 #define TILE_SIZE 50
 #define MAP_W 24
 #define MAP_H 16
 #define FRAME_COUNT 4
-#define Char_speed 0.5
+#define Char_speed 0.6
 #define POKE_BALL 6
 #define SPIKE 5
 #define BLANK 3
